@@ -24,7 +24,7 @@
 				%% Police : Arial \\
 				%% Taille : 12  pts pour texte courant \\
 				%% Couleur : noir pour texte courant \\
-				\begin{sxbox}[\textwidth]{\textbf{General problem statement}}
+				\begin{sxbox}[\textwidth]{\textbf{General problem model and problem}}
                                   \begin{notitlebox}[\textwidth]
                                     \begin{equation}
                                       \begin{split}
@@ -37,11 +37,11 @@
                                   \textbf{where}:
                                   \begin{itemize}
                                     \item \textcolor{red}{$\mathcal{L}(X,y,w)$} is the \textcolor{red}{\textit{loss}} term = the loss incurred by using the
-                                      \textcolor{green}{\textit{loadings vector} $w$} to predict the a sample of $n$
-                                      responses \textcolor{red}{$y\in\mathbb{R}^n$} from a sample of $n$ corresponding brain images \textcolor{red}{$X\in\mathbb{R}^{n \times p}$}.
+                                      \textcolor{green}{\textit{loadings vector} $w$} to predict a sample \textcolor{red}{$y\in\mathbb{R}^n$} of $n$
+                                      responses from a sample \textcolor{red}{$X\in\mathbb{R}^{n \times p}$} of $n$ corresponding brain images.
                                       \begin{itemize}
-                                        \item $X$ is commonly called the \textcolor{red}{\textit{design matrix}} whilst $y$ is the \textcolor{red}{\textit{response variate}}.
-                                        \item \textcolor{blue}{$\mathcal{L}(X,y,w) \equiv \frac{1}{2}\|y-Xw\|_2^2$} for linear regression, etc.
+                                        \item \textcolor{red}{$X$} is commonly called the \textcolor{red}{\textit{design matrix}} whilst \textcolor{red}{$y$}
+                                          is the \textcolor{red}{\textit{response variate}}. \item \textcolor{blue}{$\mathcal{L}(X,y,w) \equiv \frac{1}{2}\|y-Xw\|_2^2$} for linear regression, etc.
                                         \item \textcolor{red}{$n \ll p$} for brain data (high-dimensional problem) \textcolor{red}{$\implies$} \textcolor{blue}{need for regularization}
                                           \begin{itemize}
                                           \item Typically, \textcolor{red}{$n \sim 10$ -- $10^2$} brain images and \textcolor{red}{$p \sim 10^4$ -- $10^6$} voxels
@@ -49,24 +49,27 @@
                                       \end{itemize}
                                     \item \textcolor{blue}{$\alpha \Omega(K_{\rho}w)$} is the \textcolor{blue}{\textit{regularization}} (aka \textit{penalty}) term:
                                     \begin{itemize}
-                                      \item It encodes ``\textcolor{blue}{sparsity + structure}'' priors on the optimal loadings vector \textcolor{green}{$\hat{w}$}.
-                                      \item \textcolor{blue}{$\alpha \ge 0$} is the overall amount of regularization (tradeoff between data and reg.).
-                                      \item \textcolor{blue}{$K_{\rho} := \begin{bmatrix}(1-\rho)\nabla \\ \rho I_p\end{bmatrix} \in \mathbb{R}^{4 \times p \times p}$} is the augmented discrete spatial-gradient operator.
-                                      \item \textcolor{blue}{$\Omega: \mathbb{R}^{4 \times p} \rightarrow ]-\infty,+\infty]$}, \textcolor{blue}{$v \mapsto \Omega(v)$} is a \textit{p.l.s.c}\footnote{proper lower semi-continous} convex function.
-                                        \item \textcolor{blue}{$\rho \in [0, 1]$} controls the tradeoff between \textcolor{blue}{\textit{sparsity}} (enforced by the minimizing \textcolor{blue}{$\ell_1$-norm} of $w$) and
-                                          \textcolor{blue}{\textit{spatial structure}} (enforced by minimizing a convex function of the \textcolor{blue}{spatial gradient} $w$)
+                                      \item It encodes ``\textcolor{blue}{sparsity + structure}'' prior on the optimal loadings vector \textcolor{green}{$\hat{w}$}.
+                                      \item \textcolor{blue}{$\alpha \ge 0$} is the overall amount of regularization (tradeoff between data and regu.).
+                                      \item \textcolor{blue}{$K_{\rho} := \begin{bmatrix}(1-\rho)\nabla \\ \rho I_p\end{bmatrix} \in \mathbb{R}^{4 \times p \times p}$}
+                                        is the augmented discrete spatial-gradient operator.
+                                      \item \textcolor{blue}{$\Omega: \mathbb{R}^{4 \times p} \rightarrow ]-\infty,+\infty]$}, \textcolor{blue}{$v \mapsto \Omega(v)$}
+                                          is a \textit{p.l.s.c}\footnote{proper lower semi-continous} convex function.
+                                        \item \textcolor{blue}{$\rho \in [0, 1]$} controls the tradeoff between \textcolor{blue}{\textit{sparsity}}
+                                          (enforced by the minimizing \textcolor{blue}{$\ell_1$-norm} of $w$) and
+                                          \textcolor{blue}{\textit{spatial structure}} (enforced by minimizing a convex function of the \textcolor{blue}{spatial gradient} $w$).
                                     \end{itemize}
-                                  \begin{abox}{\textbf{Examples}}
+                                  \begin{nbox}{\textbf{Examples}}
                                   \begin{itemize}
-                                  \item \textbf{LASSO}: \textcolor{blue}{$\rho=1$} and \textcolor{blue}{$\Omega:=\|.\|_1: v \mapsto \sum_{j\in voxels}{|v_{4,j}|}$}
+                                  \item \textbf{LASSO}: \textcolor{blue}{$\rho=1$} and \textcolor{blue}{$\Omega(v):=\|v\|_1:= \sum_{j\in voxels}{|v_{4,j}|}$}
                                   \item \textbf{TV-$\ell_1$}:
-                                    \textcolor{blue}{$\Omega:=\|.\|_{2^{'}1}:v \mapsto \sum_{j \in voxels}{\left(\sqrt{v_{1,j}^2 + v_{2,j}^2 + v_{3,j}^2}\right)} + \sum_{j \in voxels}{|v_{4,j}|}$}
+                                    \textcolor{blue}{$\Omega(v):=\|v\|_{2^{'}1}:=\sum_{j \in voxels}{\left(\sqrt{v_{1,j}^2 + v_{2,j}^2 + v_{3,j}^2}\right)} + \sum_{j \in voxels}{|v_{4,j}|}$}
                                   \item \textbf{Graph-Net} (aka \textbf{Smooth-LASSO}):\\
-                                    \textcolor{blue}{$\Omega:=\|.\|_{2^21}:v \mapsto \sum_{j \in voxels}{\left(v_{1,j}^2 + v_{2,j}^2 + v_{3,j}^2\right)} + \sum_{j \in voxels}{|v_{4,j}|}$}
-                                  \item \textbf{Sparse-Variation}:\\
-                                    \textcolor{blue}{$\Omega:=\|.\|_{21}:v \mapsto \sum_{j \in voxels}{\left(\sqrt{v_{1,j}^2 + v_{2,j}^2 + v_{3,j}^2 + v_{4,j}^2}\right)}$}
+                                    \textcolor{blue}{$\Omega(v):=\|v\|_{2^21}:=\sum_{j \in voxels}{\left(v_{1,j}^2 + v_{2,j}^2 + v_{3,j}^2\right)} + \sum_{j \in voxels}{|v_{4,j}|}$}
+                                  \item \textbf{Sparse-Variation}:
+                                    \textcolor{blue}{$\Omega(v):=\|v\|_{21}:=\sum_{j \in voxels}{\left(\sqrt{v_{1,j}^2 + v_{2,j}^2 + v_{3,j}^2 + v_{4,j}^2}\right)}$}
                                   \end{itemize}
-                                  \end{abox}
+                                  \end{nbox}
                                   \end{itemize}
 
 				  % On peut y insérer du texte, des équations, des schémas, des items, etc.
@@ -98,7 +101,7 @@
                                     \llap{\color{white}\raisebox{.17\linewidth}{\rlap{\sffamily Stopping:
                                           $\Delta E < 10^{-5}$}}\hspace*{.315\linewidth}}%
                                     \caption{TV$-\ell_1$ maps ($\hat{w}$) for the face-house discrimination task on
-                                      the HAXBY2001 dataset, for different levels of tolerance.
+                                      the HAXBY2001 dataset, for different levels of \textcolor{orange}{tolerance}.
                                       This figure shows the importance of convergence for problem \eqref{eq:opt_pb}, and motivates
                                       the need for a fast solver.}%
                                     \label{fig:maps_tolerance}
