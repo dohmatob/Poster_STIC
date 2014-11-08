@@ -44,14 +44,14 @@
                                         \item \textcolor{blue}{$\mathcal{L}(X,y,w) \equiv \frac{1}{2}\|y-Xw\|_2^2$} for linear regression.
                                         \item \textcolor{red}{$n \ll p$} for brain data (high-dimensional problem) \textcolor{red}{$\implies$} \textcolor{blue}{need for regularization}
                                           \begin{itemize}
-                                          \item Typically, $n \sim 10$ -- $10^2$ brain images and $p \sim 10^4$ -- $10^6$ voxels
+                                          \item Typically, \textcolor{red}{$n \sim 10$ -- $10^2$} brain images and \textcolor{red}{$p \sim 10^4$ -- $10^6$} voxels
                                           \end{itemize}
                                       \end{itemize}
                                     \item \textcolor{blue}{$\alpha \Omega(K_{\rho}w)$} is the \textcolor{blue}{\textit{regularization}} (aka \textit{penalty}) term:
                                     \begin{itemize}
                                       \item It encodes ``\textcolor{blue}{sparsity + structure}'' priors on the optimal loadings vector \textcolor{green}{$\hat{w}$}.
-                                      \item \textcolor{blue}{$\alpha > 0$} is the overall amount of regularization (tradeoff between data and reg.).
-                                      \item \textcolor{blue}{$K_{\rho} := [(1-\rho)\nabla\text{ } \rho I_p]^T \in \mathbb{R}^{4 \times p \times p}$} is the augmented (discrete) spatial-gradient operator.
+                                      \item \textcolor{blue}{$\alpha \ge 0$} is the overall amount of regularization (tradeoff between data and reg.).
+                                      \item \textcolor{blue}{$K_{\rho} := \begin{bmatrix}(1-\rho)\nabla \\ \rho I_p\end{bmatrix} \in \mathbb{R}^{4 \times p \times p}$} is the augmented discrete spatial-gradient operator.
                                       \item \textcolor{blue}{$\Omega: \mathbb{R}^{4 \times p} \rightarrow ]-\infty,+\infty]$}, \textcolor{blue}{$v \mapsto \Omega(v)$} is a \textit{p.l.s.c}\footnote{proper lower semi-continous} convex function.
                                         \item \textcolor{blue}{$\rho \in [0, 1]$} controls the tradeoff between \textcolor{blue}{\textit{sparsity}} (enforced by the minimizing \textcolor{blue}{$\ell_1$-norm} of $w$) and
                                           \textcolor{blue}{\textit{spatial structure}} (enforced by minimizing a convex function of the \textcolor{blue}{spatial gradient} $w$)
@@ -61,9 +61,9 @@
                                   \begin{itemize}
                                   \item \textbf{LASSO}: \textcolor{blue}{$\rho=1$} and \textcolor{blue}{$\Omega:=\|.\|_1: v \mapsto \sum_{j\in voxels}{|v_{4,j}|}$}
                                   \item \textbf{TV-$\ell_1$}:
-                                    \textcolor{blue}{$\Omega:=\|.\|_{2^{'}1}:v \mapsto \sum_{j \in voxels}{\left(\sqrt{v_{1,j}^2 + v_{2,j}^2 + v_{3,j}^2} + |v_{4,j}|\right)}$}
-                                  \item \textbf{Graph-Net\footnote{aka Smooth-LASSO}}:
-                                    \textcolor{blue}{$\Omega:=\|.\|_{2^21}:v \mapsto \sum_{j \in voxels}{\left(v_{1,j}^2 + v_{2,j}^2 + v_{3,j}^2 + |v_{4,j}|\right)}$}
+                                    \textcolor{blue}{$\Omega:=\|.\|_{2^{'}1}:v \mapsto \sum_{j \in voxels}{\left(\sqrt{v_{1,j}^2 + v_{2,j}^2 + v_{3,j}^2}\right)} + \sum_{j \in voxels}{|v_{4,j}|}$}
+                                  \item \textbf{Graph-Net} (aka \textbf{Smooth-LASSO}):\\
+                                    \textcolor{blue}{$\Omega:=\|.\|_{2^21}:v \mapsto \sum_{j \in voxels}{\left(v_{1,j}^2 + v_{2,j}^2 + v_{3,j}^2\right)} + \sum_{j \in voxels}{|v_{4,j}|}$}
                                   \item \textbf{Sparse-Variation}:\\
                                     \textcolor{blue}{$\Omega:=\|.\|_{21}:v \mapsto \sum_{j \in voxels}{\left(\sqrt{v_{1,j}^2 + v_{2,j}^2 + v_{3,j}^2 + v_{4,j}^2}\right)}$}
                                   \end{itemize}
