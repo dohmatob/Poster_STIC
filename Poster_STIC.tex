@@ -63,16 +63,16 @@
                                   \begin{itemize}
                                   \item \textbf{LASSO}: \textcolor{blue}{$\rho=1$} and \textcolor{blue}{$\Omega(v):=\|v\|_1:= \sum_{j\in voxels}{|v_{4,j}|}$}
                                   \item \textbf{TV-$\ell_1$}:
-                                    \textcolor{blue}{$\Omega(v):=\|v\|_{2^{'}1}:=\sum_{j \in voxels}{\left(\sqrt{v_{1,j}^2 + v_{2,j}^2 + v_{3,j}^2}\right)} + \sum_{j \in voxels}{|v_{4,j}|}$}
-                                  \item \textbf{Graph-Net} (aka \textbf{Smooth-LASSO}):\\
+                                    \textcolor{blue}{$\Omega(v):=\|v\|_{TV\text{-}\ell_1}:=\sum_{j \in voxels}{\left(\sqrt{v_{1,j}^2 + v_{2,j}^2 + v_{3,j}^2}\right)} + \sum_{j \in voxels}{|v_{4,j}|}$}
+                                  \item \textbf{Smooth-LASSO} (aka \textbf{Graph-Net}):\\
                                     \textcolor{blue}{$\Omega(v):=\|v\|_{SL}:=\sum_{j \in voxels}{\left(v_{1,j}^2 + v_{2,j}^2 + v_{3,j}^2\right)} + \sum_{j \in voxels}{|v_{4,j}|}$}
                                   \item \textbf{Sparse-Variation}:
-                                    \textcolor{blue}{$\Omega(v):=\|v\|_{21}:=\sum_{j \in voxels}{\left(\sqrt{v_{1,j}^2 + v_{2,j}^2 + v_{3,j}^2 + v_{4,j}^2}\right)}$}
+                                    \textcolor{blue}{$\Omega(v):=\|v\|_{SV} := \|v\|_{21}:=\sum_{j \in voxels}{\left(\sqrt{v_{1,j}^2 + v_{2,j}^2 + v_{3,j}^2 + v_{4,j}^2}\right)}$}
                                   \end{itemize}
                                   \end{nbox}
                                   \end{itemize}
 
-				  % On peut y insérer du texte, des équations, des schémas, des items, etc.
+				%%   % On peut y insérer du texte, des équations, des schémas, des items, etc.
 				\end{sxbox}
 				%% \begin{nbox}[\textwidth]{Exemple d'une boite de type normal}
 				%% 	On peut y insérer du texte, des équations, des schémas, des items, etc.
@@ -86,9 +86,7 @@
 				%% \begin{notitlebox}[\textwidth]
 				%% 	On peut insérer du texte, des équations, des schémas, des items, etc. dans une boîte sans préciser de titre.
 				%% \end{notitlebox}
-			\end{column}
-			\hfill
-			\begin{column}{.48\linewidth}
+
 				\begin{nbox}[\textwidth]{\textbf{Need for fast solvers}}
                                   \begin{figure}
                                     \includegraphics[width=.32\linewidth]{maps/face_vs_house_tol_0_1.pdf}%
@@ -107,6 +105,22 @@
                                     \label{fig:maps_tolerance}
                                   \end{figure}
 
+                                  \end{nbox}
+			\end{column}
+			\hfill
+			\begin{column}{.48\linewidth}
+			  \begin{nbox}[\textwidth]{\textbf{Benchmarks (only TV-$\ell_1$)}}                          
+                            \begin{figure}
+                              \includegraphics[width=1.2\linewidth]{bench/haxby_mse.pdf}%
+                              \hspace{-.09\linewidth}%
+                              \includegraphics[width=1.2\linewidth]{bench/poldrack_mse.pdf}
+                              \caption{TV$-\ell_1$ penalized Least-Squares Regression. \textbf{Top}:
+                                on the visual recognition  face-house discrimination task; \textbf{Bottom}: on the
+                                Mixed gambles dataset. Broken lines correspond to a tolerance of $10^{0}$,
+                                whilst full-lines correspond to $10^{-2}$. The thick vertical line
+                                indicates the best model selected by cross-validation.}
+                              \label{Fig:MSEtimes}
+                            \end{figure}
 					%% Ce template a été fait sur la base du Template Beamer, vous retrouverez des fonctionnalités communes comme par exemple :
 					%% \begin{itemize}
 					%% 	\item Exemple d'item
