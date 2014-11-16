@@ -1,17 +1,16 @@
 \documentclass[french]{STIC_poster}
-% \documentclass[french,slidetop,9pt]{beamer}
 
 % Mettez vos figures dans le dossier ``Figures'' 
 
 \title{Benchmarking solvers for TV-$\ell_1$ penalized least-square and logistic regression in brain imaging}			% Titre du poster
-\author{Elvis DOHMATOB}						% Nom des auteurs 
+\author{DOHMATOB, GRAMFORT, THIRION, VAROQUAUX}						% Nom des auteurs 
 \PosterNum{4.16}							% Numéro du poster
 % Commentaires de bas de page 
-\footcomment{
-	- Espace réservé au(x) logo(s) de(s) partenaire(s)\\
-	(utiliser des logos en haute définition)\\
-	- Contact(s) (afficher le ou les contacts pour ce projet)
-}
+%% \footcomment{
+%% 	- Espace réservé au(x) logo(s) de(s) partenaire(s)\\
+%% 	(utiliser des logos en haute définition)\\
+%% 	- Contact(s) (afficher le ou les contacts pour ce projet)
+%% }
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -48,7 +47,7 @@
                                           \end{itemize}
                                       \end{itemize}
                                     \item  \textcolor{blue}{$\alpha \left(\rho \|w\|_1 + \left(1-\rho\right)TV(w)\right)$} is the \textcolor{blue}{\textit{regularization}}
-                                      (aka \textit{penalty}) term:
+                                      (aka \textit{penalty}) term \textcolor{cyan}{\cite{michel2011}}:
                                     \begin{itemize}
                                       \item It encodes ``\textcolor{blue}{sparsity + structure}'' prior on the optimal loadings vector \textcolor{green}{$\hat{w}$}.
                                       \item \textcolor{blue}{$\alpha \ge 0$} is the overall amount of regularization (tradeoff between data and regu.).
@@ -62,6 +61,7 @@
                                       \item \textcolor{blue}{$\rho \in [0, 1]$} controls the tradeoff between \textcolor{blue}{\textit{sparsity}}
                                         (enforced by the minimizing \textcolor{blue}{$\ell_1$-norm} of \textcolor{green}{$w$}) and
                                         \textcolor{blue}{\textit{spatial structure}} (enforced by minimizing the Total-Variation of \textcolor{green}{$w$}).
+
                                     \end{itemize}
                                   %% \begin{nbox}{\textbf{Examples}}
                                   %% \begin{itemize}
@@ -75,6 +75,9 @@
                                   %% \end{itemize}
                                   %% \end{nbox}
                                   \end{itemize}
+
+                                  % \hline
+                                \textcolor{magenta}{\textbf{Problem (1) is a high-dimensional non-smooth convex optimization problem and calls for novel optimization techniques.}}
 
 				%%   % On peut y insérer du texte, des équations, des schémas, des items, etc.
 				\end{sxbox}
@@ -108,16 +111,20 @@
                                       the need for a fast solver.}%
                                     \label{fig:maps_tolerance}
                                   \end{figure}
-
+                                  \begin{itemize}
+                                  \item \textcolor{magenta}{Lack of good solver and explicit control of
+                                    tolerance can lead to brain maps and conclusions that reflect
+                                    properties of the solver more than of the TV-$\ell_{1}$ solution!}
+                                    \item \textcolor{magenta}{We focus on convergence time for small tolerance}
+                                  \end{itemize}
                                   \end{nbox}
 			\end{column}
 			\hfill
 			\begin{column}{.48\linewidth}
 			  \begin{nbox}[\textwidth]{\textbf{Benchmarks}}
-                            \begin{nbox}{\textbf{Solvers considered}}
-                              ISTA, FISTA, Chambolle-Pock's primal-dual, ADMM, HANSO, LBFGS on smooth surrogates with continuation.
-                            \end{nbox}
-                            \begin{nbox}{\textbf{Results}}
+                            %% \begin{nbox}{\textbf{Solvers considered}}
+                            %%   ISTA, FISTA, Chambolle-Pock's primal-dual, ADMM, HANSO, LBFGS on smooth surrogates with continuation.
+                            %% \end{nbox}
                             \begin{figure}
                               \includegraphics[width=1.2\linewidth]{bench/haxby_mse.pdf}%
                               \hspace{-.09\linewidth}%
@@ -129,7 +136,6 @@
                                 indicates the best model selected by cross-validation.}
                               \label{Fig:MSEtimes}
                             \end{figure}
-                            \end{nbox}
 			    %% Ce template a été fait sur la base du Template Beamer, vous retrouverez des fonctionnalités communes comme par exemple :
 			    %% \begin{itemize}
 			    %% 	\item Exemple d'item
@@ -149,7 +155,12 @@
 			\end{column}
 			\hfill
 		\end{columns}
+% ==========
+% = biblio =
+% ==========
+% {\small
+\bibliographystyle{IEEEtran} \bibliography{IEEEabrv,bib_tv}
 	\end{frame}
 
-\bibliographystyle{IEEEtran} \bibliography{IEEEabrv,bib_tv}
+
 \end{document}

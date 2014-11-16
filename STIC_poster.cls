@@ -101,7 +101,7 @@
 			\node[below=1.2cm of head] {
 				\begin{minipage}{.9\paperwidth}
 					\centering
-					\usebeamerfont{myname}{\textcolor{orangeSystemX}{\insertauthor}}
+					\usebeamerfont{myname}{\textcolor{black}{\insertauthor}}
 				\end{minipage}
 			};
 			\node[below of=title,text width=.05\paperwidth,xshift=-37cm,yshift=-0.9cm,text centered] (num) {
@@ -113,7 +113,7 @@
 				\begin{minipage}{.88\paperwidth}
 					\centering 
 					\setlength\lineskip{1.5cm}
-					\usebeamerfont{mytitle}{\textcolor{white}{
+					\usebeamerfont{mytitle}{\textcolor{purple}{
 						\inserttitle
 					}}
 				\end{minipage}
