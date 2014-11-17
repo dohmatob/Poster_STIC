@@ -1,4 +1,5 @@
 \documentclass[french]{STIC_poster}
+\usepackage[round]{natbib}
 
 % Mettez vos figures dans le dossier ``Figures'' 
 
@@ -47,14 +48,14 @@
                                           \end{itemize}
                                       \end{itemize}
                                     \item  \textcolor{blue}{$\alpha \left(\rho \|w\|_1 + \left(1-\rho\right)TV(w)\right)$} is the \textcolor{blue}{\textit{regularization}}
-                                      (aka \textit{penalty}) term \textcolor{cyan}{\cite{michel2011}}:
+                                      (aka \textit{penalty}) term \textcolor{cyan}{\citep{baldassarre2012,michel2011,abraham2013}}:
                                     \begin{itemize}
                                       \item It encodes ``\textcolor{blue}{sparsity + structure}'' prior on the optimal loadings vector \textcolor{green}{$\hat{w}$}.
                                       \item \textcolor{blue}{$\alpha \ge 0$} is the overall amount of regularization (tradeoff between data and regu.).
                                         \item \textcolor{blue}{$\|w\|_1$} is the $\ell_1$-norm of $w$ defined \textcolor{blue}{$\|w\|_1 := \sum_{j \in voxels}{|w_j|}$}
                                       \item \textcolor{blue}{TV(w)} is the \textcolor{blue}{\textit{isotropic} Total-variation} of $w$ defined by\\
                                         \textcolor{blue}{$TV(w):=\|\nabla(w)\|_{21} :=\sum_{j \in voxels}{\sqrt{(\nabla^xw)_j^2+(\nabla^yw)_j^2+(\nabla^zw)_j^2}}$},
-                                        and \\ \textcolor{blue}{$\nabla := \begin{bmatrix}\nabla^x \\ \nabla^y \\ \nabla^z \end{bmatrix} \in \mathbb{R}^{3p \times p}$}
+                                        and \\ \textcolor{blue}{$\nabla := [\nabla^x,\nabla^y,\nabla^z]^T \in \mathbb{R}^{3p \times p}$}
                                         is the 3D discrete spatial gradient operator.
                                       %% \item \textcolor{blue}{$\Omega: \mathbb{R}^{4 \times p} \rightarrow ]-\infty,+\infty]$}, \textcolor{blue}{$v \mapsto \Omega(v)$}
                                       %%     is a \textit{p.l.s.c}\footnote{proper lower semi-continous} convex function.
@@ -77,8 +78,6 @@
                                   \end{itemize}
 
                                   % \hline
-                                \textcolor{magenta}{\textbf{Problem (1) is a high-dimensional non-smooth convex optimization problem and calls for novel optimization techniques.}}
-
 				%%   % On peut y insérer du texte, des équations, des schémas, des items, etc.
 				\end{sxbox}
 				%% \begin{nbox}[\textwidth]{Exemple d'une boite de type normal}
@@ -95,6 +94,12 @@
 				%% \end{notitlebox}
 
 				\begin{nbox}[\textwidth]{\textbf{Need for fast solvers}}
+                                  Problem (1) is a \textcolor{magenta}{high-dimensional non-smooth convex optimization problem} and calls for novel optimization techniques. \textcolor{cyan}{\cite{dohmatob2014benchmarking}}
+                                  \begin{itemize}
+                                    \item We focus on \textcolor{magenta}{convergence time for small tolerance}
+                                  \item Lack of good solver and explicit control of
+                                    tolerance can lead to brain maps and conclusions that reflect
+                                    properties of the solver more than of the TV-$\ell_{1}$ solution!
                                   \begin{figure}
                                     \includegraphics[width=.32\linewidth]{maps/face_vs_house_tol_0_1.pdf}%
                                     \llap{\color{white}\raisebox{.17\linewidth}{\rlap{\sffamily Stopping:
@@ -106,16 +111,9 @@
                                     \llap{\color{white}\raisebox{.17\linewidth}{\rlap{\sffamily Stopping:
                                           $\Delta E < 10^{-5}$}}\hspace*{.315\linewidth}}%
                                     \caption{TV$-\ell_1$ maps ($\hat{w}$) for the face-house discrimination task on
-                                      the HAXBY2001 dataset, for different levels of \textcolor{orange}{tolerance}.
-                                      This figure shows the importance of convergence for problem \eqref{eq:opt_pb}, and motivates
-                                      the need for a fast solver.}%
+                                      the HAXBY2001 dataset, for different levels of \textcolor{orange}{tolerance}. \textcolor{cyan}{\cite{dohmatob2014benchmarking}}}%
                                     \label{fig:maps_tolerance}
                                   \end{figure}
-                                  \begin{itemize}
-                                  \item \textcolor{magenta}{Lack of good solver and explicit control of
-                                    tolerance can lead to brain maps and conclusions that reflect
-                                    properties of the solver more than of the TV-$\ell_{1}$ solution!}
-                                    \item \textcolor{magenta}{We focus on convergence time for small tolerance}
                                   \end{itemize}
                                   \end{nbox}
 			\end{column}
@@ -133,7 +131,7 @@
                                 on the visual recognition  face-house discrimination task; \textbf{Bottom}: on the
                                 Mixed gambles dataset. Broken lines correspond to a tolerance of $10^{0}$,
                                 whilst full-lines correspond to $10^{-2}$. The thick vertical line
-                                indicates the best model selected by cross-validation.}
+                                indicates the best model selected by cross-validation. \textcolor{cyan}{\cite{dohmatob2014benchmarking}}}
                               \label{Fig:MSEtimes}
                             \end{figure}
 			    %% Ce template a été fait sur la base du Template Beamer, vous retrouverez des fonctionnalités communes comme par exemple :
@@ -155,12 +153,12 @@
 			\end{column}
 			\hfill
 		\end{columns}
-% ==========
-% = biblio =
-% ==========
-% {\small
-\bibliographystyle{IEEEtran} \bibliography{IEEEabrv,bib_tv}
-	\end{frame}
+
+%% Biblio
+\bibliographystyle{plainnat}
+\bibliography{IEEEabrv,bib_tv}
+
+\end{frame}
 
 
 \end{document}
