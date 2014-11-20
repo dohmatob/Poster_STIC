@@ -162,7 +162,7 @@
                               \includegraphics[width=1.2\linewidth]{bench/haxby_mse.pdf}%
                               \hspace{-.09\linewidth}%
                               \includegraphics[width=1.2\linewidth]{bench/haxby_lr.pdf}
-                              \caption{\textbf{Top}: Least squares. \textbf{Bottom}: Logistic. %% \textbf{Top}:
+                              \caption{Benchmarks on HAXBY2001 dataset. \textbf{Top}: Least squares regression. \textbf{Bottom}: Logistic. %% \textbf{Top}:
                                 %% on the visual recognition  face-house discrimination task; \textbf{Bottom}: on the
                                 %% Mixed gambles dataset. Broken lines correspond to a tolerance of $10^{0}$,
                                 %% whilst full-lines correspond to $10^{-2}$. The thick vertical line
@@ -190,12 +190,12 @@
 			\hfill
 		\end{columns}
 
-\begin{sxbox}[\textwidth]{\textbf{Implementation}}
-\begin{itemize}
-\item We have implemented the solvers for problem \eqref{eq:opt_pb} benchmarked here, as part of the Python library \textit{nilearn}: \url{http://www.github.com/nilearn/nilearn}.
-\end{itemize}
-\end{sxbox}
-
+%% \begin{sxbox}[\textwidth]{\textbf{Implementation}}
+%% \begin{itemize}
+%% \item We have implemented the solvers for problem \eqref{eq:opt_pb} benchmarked here, as part of the Python library \textit{nilearn}: \url{http://www.github.com/nilearn/nilearn}.
+%% \end{itemize}
+%% \end{sxbox}
+                
 \begin{sxbox}[\textwidth]{\textbf{Conclusion}}
 \begin{itemize}
 \item TV$-\ell_{1}$ penalized regression for brain imaging leads to
@@ -206,6 +206,7 @@ solvers (ADMM, ISTA, FISTA, HANSO, LBFGS, etc.) in these settings.
 \item Solvers were implemented with all known
 algorithmic improvements and implementation were carefully profiled and
 optimized.
+\item The implemented solvers are part of the open-source Python library \textit{nilearn}: \url{http://www.github.com/nilearn/nilearn}.
 \item Our results outline best strategies: monotonous FISTA with
 a adaptive control of the tolerance of the TV proximal operator, in the case of squared loss; smoothed quasi-newton based on surrogate upper-bounds of the non-smooth TV-$\ell_{1}$ penalty, for
 logistic loss.
