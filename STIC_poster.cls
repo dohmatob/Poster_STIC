@@ -92,11 +92,11 @@
 		\begin{tikzpicture}
 			\node at(0,0) (head) {
 				\hskip-6pt
-				\includegraphics[height=5cm,width=\paperwidth]{Base/STIC_14_bandeau_haut}
+				\includegraphics[height=10cm,width=\paperwidth]{Base/STIC_14_bandeau_haut}
 			};
 			\node[below=-16pt of head] (title) {
 				\hskip-6pt
-				\includegraphics[width=\paperwidth]{Base/STIC_14_bandeau_nom}
+				\includegraphics[height=12cm,width=\paperwidth]{Base/STIC_14_bandeau_nom}
 			};
 			\node[below=1.2cm of head] {
 				\begin{minipage}{.9\paperwidth}
@@ -134,9 +134,9 @@
 		\begin{tikzpicture}
 			\node at(0,0) (foot) {
 				\hskip-6pt
-				\includegraphics[width=\paperwidth]{Base/STIC_14_bandeau_bas}
+				\includegraphics[height=9.5cm,width=\paperwidth]{Base/STIC_14_bandeau_bas}
 			};
-			\node[below of=foot,text width=.7\paperwidth,xshift=-8cm,yshift=0cm] {
+			\node[below of=foot,text width=.7\paperwidth,xshift=-8cm,yshift=1cm] {
 				\usebeamerfont{myfootfont}{
 					\insertfootcomment
 				}
