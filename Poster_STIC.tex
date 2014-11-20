@@ -72,8 +72,8 @@
                                   \textbf{where}:
                                   \begin{itemize}
                                     \item \textcolor{magenta}{$\mathcal{L}(X,y,w)$} is the \textcolor{magenta}{loss} term = the loss incurred by using the
-                                      brain map $w \in \mathbb{R}^p$ to predict a sample $y\in\mathbb{R}^n$ of $n$
-                                      responses from a sample $X\in\mathbb{R}^{n \times p}$ of $n$ corresponding \textcolor{magenta}{brain images}.
+                                      \textcolor{magenta}{brain map} $w \in \mathbb{R}^p$ to \textcolor{magenta}{predict} a sample $y\in\mathbb{R}^n$ of $n$
+                                      \textcolor{magenta}{responses} from a sample $X\in\mathbb{R}^{n \times p}$ of $n$ corresponding \textcolor{magenta}{brain images}.
                                       \begin{itemize}
                                         \item $X$ is commonly called the \textcolor{magenta}{design matrix} whilst $y$
                                           is the \textcolor{magenta}{response variate}. \item $\mathcal{L}(X,y,w) \equiv \frac{1}{2}\|y-Xw\|_2^2$ for linear regression, etc.
@@ -94,7 +94,7 @@
                                         is the 3D discrete spatial gradient operator.
                                       %% \item \textcolor{blue}{$\Omega: \mathbb{R}^{4 \times p} \rightarrow ]-\infty,+\infty]$}, \textcolor{blue}{$v \mapsto \Omega(v)$}
                                       %%     is a \textit{p.l.s.c}\footnote{proper lower semi-continous} convex function.
-                                      \item \textcolor{magenta}{$\rho \in [0, 1]$}: controls the tradeoff between \textcolor{magenta}{sparsity}
+                                      \item \textcolor{magenta}{$\rho \in [0, 1]$}: also called the \textcolor{magenta}{$\ell_1$-ratio} controls the tradeoff between \textcolor{magenta}{sparsity}
                                         (enforced by the minimizing $\ell_1(w)$) and
                                         \textcolor{magenta}{spatial structure} (enforced by minimizing $TV(w)$).
 
