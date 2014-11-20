@@ -83,8 +83,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Définition du Titre du poster
-\setbeamerfont{myname}{size=\huge,family=\sffamily,shape=\scshape,series=\mdseries}	% définit la font des titres de la diapositive générale
-\setbeamerfont{mytitle}{size=\Huge,family=\sffamily,shape=\scshape,series=\mdseries}	% définit la font des titres de la diapositive générale
+\setbeamerfont{myname}{size=\large,family=\sffamily,shape=\scshape,series=\mdseries}	% définit la font des titres de la diapositive générale
+\setbeamerfont{mytitle}{size=\huge,family=\sffamily,shape=\scshape,series=\mdseries}	% définit la font des titres de la diapositive générale
 \setbeamertemplate{headline}{  
 	\leavevmode
 	\vskip-7pt
@@ -92,7 +92,7 @@
 		\begin{tikzpicture}
 			\node at(0,0) (head) {
 				\hskip-6pt
-				\includegraphics[width=\paperwidth]{Base/STIC_14_bandeau_haut}
+				\includegraphics[height=5cm,width=\paperwidth]{Base/STIC_14_bandeau_haut}
 			};
 			\node[below=-16pt of head] (title) {
 				\hskip-6pt
@@ -113,7 +113,7 @@
 				\begin{minipage}{.88\paperwidth}
 					\centering 
 					\setlength\lineskip{1.5cm}
-					\usebeamerfont{mytitle}{\textcolor{purple}{
+					\usebeamerfont{mytitle}{\textcolor{white}{
 						\inserttitle
 					}}
 				\end{minipage}

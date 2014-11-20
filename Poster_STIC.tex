@@ -1,22 +1,55 @@
 \documentclass[french]{STIC_poster}
 \usepackage[round]{natbib}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  citecolor=gray,
+  urlcolor=magenta, %couleur des hyperliens
+}
 
 % Mettez vos figures dans le dossier ``Figures'' 
 
-\title{Benchmarking solvers for TV-$\ell_1$ penalized least-square and logistic regression in brain imaging}			% Titre du poster
-\author{DOHMATOB, GRAMFORT, THIRION, VAROQUAUX}						% Nom des auteurs 
+\title{Benchmarking solvers for TV-$\ell_1$ penalized logistic and least squares regression: application to brain data}			% Titre du poster
+\author{Elvis DOHMATOB, Alexandre GRAMFORT, Bertrand THIRION, Gael VAROQUAUX}				% Nom des auteurs 
+\institute{\inst{1} Parietal Team, INRIA \and %
+  \inst{2} affiliation for author2}
+
+
 \PosterNum{4.16}							% Numéro du poster
 % Commentaires de bas de page 
-%% \footcomment{
-%% 	- Espace réservé au(x) logo(s) de(s) partenaire(s)\\
-%% 	(utiliser des logos en haute définition)\\
-%% 	- Contact(s) (afficher le ou les contacts pour ce projet)
-%% }
+\footcomment{
+  \includegraphics[width=.33\linewidth]{parietal.png}
+  \includegraphics[width=.33\linewidth]{INRIA_SCIENTIFIQUE_UK_CMJN.png}
+  \includegraphics[width=.33\linewidth]{neurospin.png}
+
+	%% - Espace réservé au(x) logo(s) de(s) partenaire(s)\\
+	%% (utiliser des logos en haute définition)\\
+	%% - Contact(s) (afficher le ou les contacts pour ce projet)
+}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 	\begin{frame}[t]
+            Learning predictive models from brain imaging data, as in decoding
+            cognitive states from fMRI (functional Magnetic Resonance Imaging),
+            is typically an ill-posed problem as it
+            entails estimating many more parameters than available sample
+            points. This estimation problem thus requires regularization. Total
+            variation regularization, combined with sparse models, has been shown
+            to yield good predictive performance, as well as stable and
+            interpretable maps. However, the corresponding optimization problem is
+            very challenging. %% : it is non-smooth, non-separable and heavily
+            %% ill-conditioned. For the penalty to fully exercise its structuring
+            %% effect on the maps, this optimization problem must be solved to a good
+            %% tolerance resulting in a computational
+            %% challenge.
+            Here we explore a wide variety of solvers and exhibit
+            their convergence properties on fMRI data. %%  We introduce a variant
+            %% of smooth solvers and show that it is a promising approach in these
+            %% settings.
+            Our findings show that care must be taken in solving
+            TV$-\ell_1$ estimation in brain imaging and highlight the successful strategies.
 		\begin{columns}[t]
 			\hfill
 			\begin{column}{.48\linewidth}
@@ -27,41 +60,43 @@
 				\begin{sxbox}[\textwidth]{\textbf{Problem statement}}
                                   \begin{notitlebox}[\textwidth]
                                     \begin{equation}
+                                      \left .
                                       \begin{split}
-                                        \textbf{Minimize} &: \textcolor{red}{\mathcal{L}(X,y,w)} + \textcolor{blue}{\alpha \left(\rho \|w\|_1 + \left(1-\rho\right)TV(w)\right)}\\
-                                        \textbf{For} &: \textcolor{green}{w\in\mathbb{R}^p}
+                                        \textbf{Minimize} &: \mathcal{L}(X,y,w) + \alpha \left(\rho \|w\|_1 + \left(1-\rho\right)TV(w)\right)\\
+                                        \textbf{For} &: w\in\mathbb{R}^p
                                         \label{eq:opt_pb}
                                       \end{split}
+                                      \right\}
                                     \end{equation}
                                   \end{notitlebox}
                                   \textbf{where}:
                                   \begin{itemize}
-                                    \item \textcolor{red}{$\mathcal{L}(X,y,w)$} is the \textcolor{red}{\textit{loss}} term = the loss incurred by using the
-                                      \textcolor{green}{\textit{loadings vector} $w$} to predict a sample \textcolor{red}{$y\in\mathbb{R}^n$} of $n$
-                                      responses from a sample \textcolor{red}{$X\in\mathbb{R}^{n \times p}$} of $n$ corresponding brain images.
+                                    \item \textcolor{magenta}{$\mathcal{L}(X,y,w)$} is the \textcolor{magenta}{loss} term = the loss incurred by using the
+                                      brain map $w \in \mathbb{R}^p$ to predict a sample $y\in\mathbb{R}^n$ of $n$
+                                      responses from a sample $X\in\mathbb{R}^{n \times p}$ of $n$ corresponding \textcolor{magenta}{brain images}.
                                       \begin{itemize}
-                                        \item \textcolor{red}{$X$} is commonly called the \textcolor{red}{\textit{design matrix}} whilst \textcolor{red}{$y$}
-                                          is the \textcolor{red}{\textit{response variate}}. \item \textcolor{blue}{$\mathcal{L}(X,y,w) \equiv \frac{1}{2}\|y-Xw\|_2^2$} for linear regression, etc.
-                                        \item \textcolor{red}{$n \ll p$} for brain data (high-dimensional problem) \textcolor{red}{$\implies$} \textcolor{blue}{need for regularization}
+                                        \item $X$ is commonly called the \textcolor{magenta}{design matrix} whilst $y$
+                                          is the \textcolor{magenta}{response variate}. \item $\mathcal{L}(X,y,w) \equiv \frac{1}{2}\|y-Xw\|_2^2$ for linear regression, etc.
+                                        \item \textcolor{magenta}{$n \ll p$} for brain data (\textcolor{magenta}{high-dimensional problem}) $\implies$ need for regularization
                                           \begin{itemize}
-                                          \item Typically, \textcolor{red}{$n \sim 10$ -- $10^2$} brain images and \textcolor{red}{$p \sim 10^4$ -- $10^6$} voxels
+                                          \item Typically, \textcolor{magenta}{$n \sim 10$ -- $10^2$} brain images and \textcolor{magenta}{$p \sim 10^4$ -- $10^6$} voxels
                                           \end{itemize}
                                       \end{itemize}
-                                    \item  \textcolor{blue}{$\alpha \left(\rho \|w\|_1 + \left(1-\rho\right)TV(w)\right)$} is the \textcolor{blue}{\textit{regularization}}
-                                      (aka \textit{penalty}) term \textcolor{cyan}{\citep{baldassarre2012,michel2011,abraham2013}}:
+                                    \item \textcolor{magenta}{$\alpha \left(\rho \|w\|_1 + \left(1-\rho\right)TV(w)\right)$} is the \textcolor{magenta}{regularization}
+                                      (aka \textcolor{magenta}{penalty}) term \textcolor{cyan}{(\cite{michel2011,baldassarre2012,gramfort2013})}:
                                     \begin{itemize}
-                                      \item It encodes ``\textcolor{blue}{sparsity + structure}'' prior on the optimal loadings vector \textcolor{green}{$\hat{w}$}.
-                                      \item \textcolor{blue}{$\alpha \ge 0$} is the overall amount of regularization (tradeoff between data and regu.).
-                                        \item \textcolor{blue}{$\|w\|_1$} is the $\ell_1$-norm of $w$ defined \textcolor{blue}{$\|w\|_1 := \sum_{j \in voxels}{|w_j|}$}
-                                      \item \textcolor{blue}{TV(w)} is the \textcolor{blue}{\textit{isotropic} Total-variation} of $w$ defined by\\
-                                        \textcolor{blue}{$TV(w):=\|\nabla(w)\|_{21} :=\sum_{j \in voxels}{\sqrt{(\nabla^xw)_j^2+(\nabla^yw)_j^2+(\nabla^zw)_j^2}}$},
-                                        and \\ \textcolor{blue}{$\nabla := [\nabla^x,\nabla^y,\nabla^z]^T \in \mathbb{R}^{3p \times p}$}
+                                      \item Encodes ``\textcolor{magenta}{sparsity + spatial structure}'' prior on the optimal brain map $\hat{w}$.
+                                      \item \textcolor{magenta}{$\alpha \ge 0$}: overall amount of regularization (tradeoff between data and regularization).
+                                        \item \textcolor{magenta}{$\|w\|_1$}: $\ell_1$-norm of $w$ defined by $\|w\|_1 := \sum_{j \in voxels}{|w_j|}$.
+                                      \item \textcolor{magenta}{TV(w)}: the \textcolor{magenta}{isotropic Total-variation} of $w$ defined by\\
+                                        $TV(w):=\|\nabla(w)\|_{21} :=\sum_{j \in voxels}{\sqrt{(\nabla^xw)_j^2+(\nabla^yw)_j^2+(\nabla^zw)_j^2}}$,
+                                        and \\ $\nabla := [\nabla^x,\nabla^y,\nabla^z]^T \in \mathbb{R}^{3p \times p}$
                                         is the 3D discrete spatial gradient operator.
                                       %% \item \textcolor{blue}{$\Omega: \mathbb{R}^{4 \times p} \rightarrow ]-\infty,+\infty]$}, \textcolor{blue}{$v \mapsto \Omega(v)$}
                                       %%     is a \textit{p.l.s.c}\footnote{proper lower semi-continous} convex function.
-                                      \item \textcolor{blue}{$\rho \in [0, 1]$} controls the tradeoff between \textcolor{blue}{\textit{sparsity}}
-                                        (enforced by the minimizing \textcolor{blue}{$\ell_1$-norm} of \textcolor{green}{$w$}) and
-                                        \textcolor{blue}{\textit{spatial structure}} (enforced by minimizing the Total-Variation of \textcolor{green}{$w$}).
+                                      \item \textcolor{magenta}{$\rho \in [0, 1]$}: controls the tradeoff between \textcolor{magenta}{sparsity}
+                                        (enforced by the minimizing $\ell_1(w)$) and
+                                        \textcolor{magenta}{spatial structure} (enforced by minimizing $TV(w)$).
 
                                     \end{itemize}
                                   %% \begin{nbox}{\textbf{Examples}}
@@ -94,24 +129,24 @@
 				%% \end{notitlebox}
 
 				\begin{nbox}[\textwidth]{\textbf{Need for fast solvers}}
-                                  Problem (1) is a \textcolor{magenta}{high-dimensional non-smooth convex optimization problem} and calls for novel optimization techniques. \textcolor{cyan}{\cite{dohmatob2014benchmarking}}
+                                  Problem (1) is a \textcolor{magenta}{high-dimensional non-smooth convex optimization problem} and calls for novel optimization techniques. %\textcolor{cyan}{\cite{dohmatob2014benchmarking}}
                                   \begin{itemize}
                                     \item We focus on \textcolor{magenta}{convergence time for small tolerance}
-                                  \item Lack of good solver and explicit control of
-                                    tolerance can lead to brain maps and conclusions that reflect
+                                  \item Lack of fast solver and explicit control of
+                                    tolerance for problem \eqref{eq:opt_pb} can lead to brain maps and conclusions that reflect
                                     properties of the solver more than of the TV-$\ell_{1}$ solution!
                                   \begin{figure}
                                     \includegraphics[width=.32\linewidth]{maps/face_vs_house_tol_0_1.pdf}%
-                                    \llap{\color{white}\raisebox{.17\linewidth}{\rlap{\sffamily Stopping:
-                                          $\Delta E < 10^{-1}$}}\hspace*{.315\linewidth}}\hfill%
+                                    \llap{\color{cyan}\raisebox{.163\linewidth}{\rlap{\sffamily Stopping:
+                                          $\Delta E < 10^{-1}$}}\hspace*{.32\linewidth}}\hfill%
                                     \includegraphics[width=.32\linewidth]{maps/face_vs_house_tol_0_001.pdf}%
-                                    \llap{\color{white}\raisebox{.17\linewidth}{\rlap{\sffamily Stopping:
-                                          $\Delta E < 10^{-3}$}}\hspace*{.315\linewidth}}\hfill%
+                                    \llap{\color{cyan}\raisebox{.163\linewidth}{\rlap{\sffamily Stopping:
+                                          $\Delta E < 10^{-3}$}}\hspace*{.32\linewidth}}\hfill%
                                     \includegraphics[width=.32\linewidth]{maps/face_vs_house_tol_1e-05.pdf}%
-                                    \llap{\color{white}\raisebox{.17\linewidth}{\rlap{\sffamily Stopping:
-                                          $\Delta E < 10^{-5}$}}\hspace*{.315\linewidth}}%
-                                    \caption{TV$-\ell_1$ maps ($\hat{w}$) for the face-house discrimination task on
-                                      the HAXBY2001 dataset, for different levels of \textcolor{orange}{tolerance}. \textcolor{cyan}{\cite{dohmatob2014benchmarking}}}%
+                                    \llap{\color{cyan}\raisebox{.163\linewidth}{\rlap{\sffamily Stopping:
+                                          $\Delta E < 10^{-5}$}}\hspace*{.32\linewidth}}%
+                                    \caption{Optimal TV$-\ell_1$ brain maps for the face-house discrimination task on
+                                      the HAXBY2001 dataset, for different levels of tolerance. \textcolor{cyan}{\cite{dohmatob2014benchmarking}}}%
                                     \label{fig:maps_tolerance}
                                   \end{figure}
                                   \end{itemize}
@@ -119,19 +154,20 @@
 			\end{column}
 			\hfill
 			\begin{column}{.48\linewidth}
-			  \begin{nbox}[\textwidth]{\textbf{Benchmarks}}
+			  \begin{nbox}[\textwidth]{\textbf{Results of benchmarks}}
                             %% \begin{nbox}{\textbf{Solvers considered}}
                             %%   ISTA, FISTA, Chambolle-Pock's primal-dual, ADMM, HANSO, LBFGS on smooth surrogates with continuation.
                             %% \end{nbox}
                             \begin{figure}
                               \includegraphics[width=1.2\linewidth]{bench/haxby_mse.pdf}%
                               \hspace{-.09\linewidth}%
-                              \includegraphics[width=1.2\linewidth]{bench/poldrack_mse.pdf}
-                              \caption{TV$-\ell_1$ penalized Least-Squares Regression. \textbf{Top}:
-                                on the visual recognition  face-house discrimination task; \textbf{Bottom}: on the
-                                Mixed gambles dataset. Broken lines correspond to a tolerance of $10^{0}$,
-                                whilst full-lines correspond to $10^{-2}$. The thick vertical line
-                                indicates the best model selected by cross-validation. \textcolor{cyan}{\cite{dohmatob2014benchmarking}}}
+                              \includegraphics[width=1.2\linewidth]{bench/haxby_lr.pdf}
+                              \caption{\textbf{Top}: Least squares. \textbf{Bottom}: Logistic. %% \textbf{Top}:
+                                %% on the visual recognition  face-house discrimination task; \textbf{Bottom}: on the
+                                %% Mixed gambles dataset. Broken lines correspond to a tolerance of $10^{0}$,
+                                %% whilst full-lines correspond to $10^{-2}$. The thick vertical line
+                                %% indicates the best model selected by cross-validation. 
+                                \textcolor{cyan}{\cite{dohmatob2014benchmarking}}}
                               \label{Fig:MSEtimes}
                             \end{figure}
 			    %% Ce template a été fait sur la base du Template Beamer, vous retrouverez des fonctionnalités communes comme par exemple :
@@ -154,9 +190,33 @@
 			\hfill
 		\end{columns}
 
+\begin{sxbox}[\textwidth]{\textbf{Implementation}}
+\begin{itemize}
+\item We have implemented the solvers for problem \eqref{eq:opt_pb} benchmarked here, as part of the Python library \textit{nilearn}: \url{http://www.github.com/nilearn/nilearn}.
+\end{itemize}
+\end{sxbox}
+
+\begin{sxbox}[\textwidth]{\textbf{Conclusion}}
+\begin{itemize}
+\item TV$-\ell_{1}$ penalized regression for brain imaging leads to
+very high-dimensional, non-smooth and very ill-conditioned optimization
+problems.
+\item We have presented a comprehensive comparison of state-of-the-art
+solvers (ADMM, ISTA, FISTA, HANSO, LBFGS, etc.) in these settings.
+\item Solvers were implemented with all known
+algorithmic improvements and implementation were carefully profiled and
+optimized.
+\item Our results outline best strategies: monotonous FISTA with
+a adaptive control of the tolerance of the TV proximal operator, in the case of squared loss; smoothed quasi-newton based on surrogate upper-bounds of the non-smooth TV-$\ell_{1}$ penalty, for
+logistic loss.
+\end{itemize}
+\end{sxbox}
+
 %% Biblio
 \bibliographystyle{plainnat}
+\begin{nbox}[\textwidth]{\textbf{References}}
 \bibliography{IEEEabrv,bib_tv}
+\end{nbox}
 
 \end{frame}
 
