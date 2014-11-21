@@ -10,8 +10,9 @@
 % Mettez vos figures dans le dossier ``Figures'' 
 
 \title{Benchmarking solvers for TV-$\ell_1$ penalized logistic and least squares regression: application to brain data}			% Titre du poster
-\author{Elvis DOHMATOB, Alexandre GRAMFORT, Bertrand THIRION, Gael VAROQUAUX}				% Nom des auteurs 
-\institute{\inst{1} Parietal Team, INRIA \and %
+\author{Elvis DOHMATOB \inst{1}, Alexandre GRAMFORT, Bertrand THIRION \inst{1}, Gael VAROQUAUX \inst{1}}				% Nom des auteurs 
+\institute{\inst{1} INRIA, Saclay-\^Ile-de-France, Parietal
+team, France - CEA / DSV / I2BM / Neurospin / Unati \and %
   \inst{2} affiliation for author2}
 
 
@@ -49,7 +50,7 @@
             %% of smooth solvers and show that it is a promising approach in these
             %% settings.
             Our findings show that care must be taken in solving
-            TV$-\ell_1$ estimation in brain imaging and highlight the successful strategies.
+            TV$-\ell_1$ estimation in brain imaging. We highlight the successful strategies.
 		\begin{columns}[t]
 			\hfill
 			\begin{column}{.48\linewidth}
@@ -57,18 +58,16 @@
 				%% Police : Arial \\
 				%% Taille : 12  pts pour texte courant \\
 				%% Couleur : noir pour texte courant \\
-				\begin{sxbox}[\textwidth]{\textbf{Problem statement}}
-                                  \begin{notitlebox}[\textwidth]
+				\begin{abox}{\textbf{Problem statement}}
                                     \begin{equation}
                                       \left .
                                       \begin{split}
-                                        \textbf{Minimize} &: \mathcal{L}(X,y,w) + \alpha \left(\rho \|w\|_1 + \left(1-\rho\right)TV(w)\right)\\
-                                        \textbf{For} &: w\in\mathbb{R}^p
+                                        \textbf{Minimize} & \text{ } E(w) := \mathcal{L}(X,y,w) + \alpha \left(\rho \|w\|_1 + \left(1-\rho\right)TV(w)\right)\\
+                                        \textbf{For} & \text{ } w\in\mathbb{R}^p
                                         \label{eq:opt_pb}
                                       \end{split}
                                       \right\}
                                     \end{equation}
-                                  \end{notitlebox}
                                   \textbf{where}:
                                   \begin{itemize}
                                     \item \textcolor{magenta}{$\mathcal{L}(X,y,w)$} is the \textcolor{magenta}{loss} term = the loss incurred by using the
@@ -114,7 +113,6 @@
 
                                   % \hline
 				%%   % On peut y insérer du texte, des équations, des schémas, des items, etc.
-				\end{sxbox}
 				%% \begin{nbox}[\textwidth]{Exemple d'une boite de type normal}
 				%% 	On peut y insérer du texte, des équations, des schémas, des items, etc.
 				%% \end{nbox}
@@ -127,7 +125,6 @@
 				%% \begin{notitlebox}[\textwidth]
 				%% 	On peut insérer du texte, des équations, des schémas, des items, etc. dans une boîte sans préciser de titre.
 				%% \end{notitlebox}
-
 				\begin{nbox}[\textwidth]{\textbf{Need for fast solvers}}
                                   Problem (1) is a \textcolor{magenta}{high-dimensional non-smooth convex optimization problem} and calls for novel optimization techniques. %\textcolor{cyan}{\cite{dohmatob2014benchmarking}}
                                   \begin{itemize}
@@ -137,24 +134,25 @@
                                     properties of the solver more than of the TV-$\ell_{1}$ solution!
                                   \begin{figure}
                                     \includegraphics[width=.32\linewidth]{maps/face_vs_house_tol_0_1.pdf}%
-                                    \llap{\color{cyan}\raisebox{.163\linewidth}{\rlap{\sffamily Stopping:
-                                          $\Delta E < 10^{-1}$}}\hspace*{.32\linewidth}}\hfill%
+                                    \llap{\color{white}\raisebox{.161\linewidth}{\rlap{\sffamily %% Stopping:
+                                          $|\Delta E_k| < 10^{-1}$}}\hspace*{.32\linewidth}}\hfill%
                                     \includegraphics[width=.32\linewidth]{maps/face_vs_house_tol_0_001.pdf}%
-                                    \llap{\color{cyan}\raisebox{.163\linewidth}{\rlap{\sffamily Stopping:
-                                          $\Delta E < 10^{-3}$}}\hspace*{.32\linewidth}}\hfill%
+                                    \llap{\color{white}\raisebox{.161\linewidth}{\rlap{\sffamily %% Stopping:
+                                          $|\Delta E_k| < 10^{-3}$}}\hspace*{.32\linewidth}}\hfill%
                                     \includegraphics[width=.32\linewidth]{maps/face_vs_house_tol_1e-05.pdf}%
-                                    \llap{\color{cyan}\raisebox{.163\linewidth}{\rlap{\sffamily Stopping:
-                                          $\Delta E < 10^{-5}$}}\hspace*{.32\linewidth}}%
+                                    \llap{\color{white}\raisebox{.161\linewidth}{\rlap{\sffamily %% Stopping:
+                                          $|\Delta E_k| < 10^{-5}$}}\hspace*{.32\linewidth}}%
                                     \caption{Optimal TV$-\ell_1$ brain maps for the face-house discrimination task on
                                       the \textcolor{cyan}{\cite{haxby2001}} dataset, for different levels of tolerance. \textcolor{cyan}{\cite{dohmatob2014benchmarking}}}%
                                     \label{fig:maps_tolerance}
                                   \end{figure}
                                   \end{itemize}
-                                  \end{nbox}
+                                \end{nbox}
+				\end{abox}
 			\end{column}
 			\hfill
 			\begin{column}{.48\linewidth}
-			  \begin{nbox}[\textwidth]{\textbf{Results of benchmarks}}
+			  \begin{abox}{\textbf{Results}}
                             %% \begin{nbox}{\textbf{Solvers considered}}
                             %%   ISTA, FISTA, Chambolle-Pock's primal-dual, ADMM, HANSO, LBFGS on smooth surrogates with continuation.
                             %% \end{nbox}
@@ -162,12 +160,8 @@
                               \includegraphics[width=1.2\linewidth]{bench/haxby_mse.pdf}%
                               \hspace{-.09\linewidth}%
                               \includegraphics[width=1.2\linewidth]{bench/haxby_lr.pdf}
-                              \caption{Benchmarks on \textcolor{cyan}{\cite{haxby2001}} dataset. \textbf{Top}: Least squares regression. \textbf{Bottom}: Logistic. %% \textbf{Top}:
-                                %% on the visual recognition  face-house discrimination task; \textbf{Bottom}: on the
-                                %% Mixed gambles dataset. Broken lines correspond to a tolerance of $10^{0}$,
-                                %% whilst full-lines correspond to $10^{-2}$. The thick vertical line
-                                %% indicates the best model selected by cross-validation. 
-                                \textcolor{cyan}{\cite{dohmatob2014benchmarking}}}
+                              \caption{Benchmarks on \textcolor{cyan}{\cite{haxby2001}} dataset. \textbf{Top}: TV-$\ell_1$ penalized least squares regression.
+                                \textbf{Bottom}: Logistic regression. See \textcolor{cyan}{\cite{dohmatob2014benchmarking}}}.
                               \label{Fig:MSEtimes}
                             \end{figure}
 			    %% Ce template a été fait sur la base du Template Beamer, vous retrouverez des fonctionnalités communes comme par exemple :
@@ -185,7 +179,7 @@
 			    %% \Atext{Exemple de texte mis en évidence. On peut modifier la largeur de la boîte}{.9\textwidth}
 			    %% et une barre de progression \myprogressbar{30} avec différentes options \myprogressbar[scale=.4]{70}\\
 			    %% \vspace{.3cm}
-				\end{nbox}
+			  \end{abox}
 			\end{column}
 			\hfill
 		\end{columns}
@@ -196,28 +190,28 @@
 %% \end{itemize}
 %% \end{sxbox}
                 
-\begin{sxbox}[\textwidth]{\textbf{Conclusion}}
+\begin{abox}{\textbf{Conclusion}}
 \begin{itemize}
 \item TV$-\ell_{1}$ penalized regression for brain imaging leads to
 very high-dimensional, non-smooth and very ill-conditioned optimization
 problems.
 \item We have presented a comprehensive comparison of state-of-the-art
-solvers (ADMM, ISTA, FISTA, HANSO, LBFGS, etc.) in these settings.
+solvers (\textcolor{magenta}{ADMM}, \textcolor{magenta}{ISTA}, \textcolor{magenta}{FISTA}, \textcolor{magenta}{HANSO}, \textcolor{magenta}{LBFGS}, etc.) in these settings.
 \item Solvers were implemented with all known
 algorithmic improvements and implementation were carefully profiled and
 optimized.
 \item The implemented solvers are part of the open-source Python library \textit{nilearn}: \url{http://www.github.com/nilearn/nilearn}.
-\item Our results outline best strategies: monotonous FISTA with
-a adaptive control of the tolerance of the TV proximal operator, in the case of squared loss; smoothed quasi-newton based on surrogate upper-bounds of the non-smooth TV-$\ell_{1}$ penalty, for
+\item Our results outline best solvers: \textcolor{magenta}{monotonous FISTA} with
+a adaptive control of the tolerance of the TV proximal operator, in the case of squared loss; smoothed quasi-newton (for example \textcolor{magenta}{LBFGS} here) based on surrogate upper-bounds of the non-smooth TV-$\ell_{1}$ penalty, for
 logistic loss.
 \end{itemize}
-\end{sxbox}
+\end{abox}
 
 %% Biblio
 \bibliographystyle{plainnat}
-\begin{nbox}[\textwidth]{\textbf{References}}
+\begin{abox}[\textwidth]{\textbf{References}}
 \bibliography{IEEEabrv,bib_tv}
-\end{nbox}
+\end{abox}
 
 \end{frame}
 
