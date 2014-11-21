@@ -6,7 +6,9 @@
   citecolor=gray,
   urlcolor=magenta, %couleur des hyperliens
 }
+
 % Mettez vos figures dans le dossier ``Figures'' 
+% \setbeamerfont{itemize/enumerate subbody}{size=\normalize}
 
 \title{Benchmarking solvers for TV-$\ell_1$ penalized logistic and least squares regression: application to brain data}			% Titre du poster
 \author{Elvis DOHMATOB, Alexandre GRAMFORT, Bertrand THIRION, Gael VAROQUAUX}		% Nom des auteurs 
@@ -73,9 +75,7 @@
                                         \item $X$ is commonly called the \textcolor{magenta}{design matrix} whilst $y$
                                           is the \textcolor{magenta}{response variate}. \item $\mathcal{L}(X,y,w) \equiv \frac{1}{2}\|y-Xw\|_2^2$ for linear regression, etc.
                                         \item \textcolor{magenta}{$n \ll p$} for brain data (\textcolor{magenta}{high-dimensional problem}) $\implies$ need for regularization
-                                          \begin{itemize}
                                           \item Typically, \textcolor{magenta}{$n \sim 10$ -- $10^2$} brain images and \textcolor{magenta}{$p \sim 10^4$ -- $10^6$} voxels
-                                          \end{itemize}
                                       \end{itemize}
                                     \item \textcolor{magenta}{$\alpha \left(\rho \|w\|_1 + \left(1-\rho\right)TV(w)\right)$} is the \textcolor{magenta}{regularization}
                                       (aka \textcolor{magenta}{penalty}) term \textcolor{cyan}{\cite{michel2011,baldassarre2012,gramfort2013}}:
@@ -196,9 +196,13 @@ solvers (\textcolor{magenta}{ADMM}, \textcolor{magenta}{ISTA}, \textcolor{magent
 algorithmic improvements and implementation were carefully profiled and
 optimized.
 \item Implemented solvers are part of the open-source Python library \textit{nilearn}: \url{http://www.github.com/nilearn/nilearn}.
-\item Our results outline best solvers: \textcolor{magenta}{monotonous FISTA} with
-a adaptive control of the tolerance of the TV proximal operator, in the case of squared loss; smoothed quasi-newton (for example \textcolor{magenta}{LBFGS} here) based on surrogate upper-bounds of the non-smooth TV-$\ell_{1}$ penalty, for
-logistic loss.
+\item Our results outline best solvers:
+  \footnotesize
+  \begin{itemize}
+  \item \textcolor{magenta}{monotonous FISTA} with
+    a adaptive control of the tolerance of the TV proximal operator, in the case of squared loss;
+  \item smoothed quasi-newton (for example \textcolor{magenta}{LBFGS} here) based on surrogate upper-bounds of the non-smooth TV-$\ell_{1}$ penalty, for logistic loss.
+  \end{itemize}
 \end{itemize}
 \end{abox}
 

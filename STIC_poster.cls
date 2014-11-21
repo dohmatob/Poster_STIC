@@ -8,7 +8,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
 \ProvidesClass{STIC_poster}[2014/09/09 Classe pour poster STIC, V2.0]
-
 \LoadClass[french,final,12pt]{beamer}
 
 
