@@ -193,15 +193,15 @@ problems.
 \item We have presented a comprehensive comparison of state-of-the-art
 solvers (\textcolor{magenta}{ADMM}, \textcolor{magenta}{ISTA}, \textcolor{magenta}{FISTA}, \textcolor{magenta}{HANSO}, \textcolor{magenta}{LBFGS}, etc.) in these settings.
 \item Solvers were implemented with all known
-algorithmic improvements and implementation were carefully profiled and
+algorithmic improvements and the code was carefully profiled and
 optimized.
 \item Implemented solvers are part of the open-source Python library \textit{nilearn}: \url{http://www.github.com/nilearn/nilearn}.
 \item Our results outline best solvers:
   \footnotesize
   \begin{itemize}
   \item \textcolor{magenta}{monotonous FISTA} with
-    a adaptive control of the tolerance of the TV proximal operator, in the case of squared loss;
-  \item smoothed quasi-newton (for example \textcolor{magenta}{LBFGS} here) based on surrogate upper-bounds of the non-smooth TV-$\ell_{1}$ penalty, for logistic loss.
+    a adaptive control on the tolerance of approximation of the  proximant of the TV operator, in the case of squared loss;
+  \item quasi-newton (for example \textcolor{magenta}{LBFGS} here) based on smooth surrogate upper-bounds of the non-smooth TV-$\ell_{1}$ penalty, in the case of logistic loss.
   \end{itemize}
 \end{itemize}
 \end{abox}
